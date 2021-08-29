@@ -1,0 +1,5 @@
+"UnlitGeneric"
+{
+	"$basetexture" "overlays/zr/zg_humans_win"
+	"$translucent" 1
+}

@@ -1,0 +1,33 @@
+﻿"Phrases"
+{
+	"Overlay Menu Title"
+	{
+		"en"	"[Zr] Overlay Menu"
+		"pt"	"[Zr] Menu Overlay"
+		"ru"	"[Zr] Оверлей меню"
+	}
+	"Overlay Menu Humans"
+	{
+		"en"	"Human victory"
+		"pt"	"Vitória dos Humanos"
+		"ru"	"Человеческая победа"
+	}
+	"Overlay Menu Zombies"
+	{
+		"en"	"Zombie victory"
+		"pt"	"Vitória dos Zumbis"
+		"ru"	"Победа зомби"
+	}
+	"Random"
+	{
+		"en"	"Random"
+		"pt"	"Aleatório"
+		"ru"	"Случайный"
+	}
+	"Disabled"
+	{
+		"en"	"Disabled"
+		"pt"	"Desativado"
+		"ru"	"Отключено"
+	}
+}

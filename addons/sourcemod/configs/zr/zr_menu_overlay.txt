@@ -1,0 +1,61 @@
+"Overlay"
+{
+	"Overlay_Humans"
+	{
+		"Overlay_1"
+		{
+			"name"	"zg_humans_win"
+			"Overlay"	"overlays/zr/zg_humans_win"
+		}
+		"Overlay_2"
+		{
+			"name"	"humans_win"
+			"Overlay"	"overlays/zr/humans_win"
+		}
+		"Overlay_3"
+		{
+			"name"	"humans_hard_win"
+			"Overlay"	"overlays/zr/yura7181/new/humans_hard_win"
+		}
+		"Overlay_4"
+		{
+			"name"	"humans_win"
+			"Overlay"	"overlays/zr/yura7181/new/humans_win"
+		}
+		"Overlay_5"
+		{
+			"name"	"humanswin2"
+			"Overlay"	"overlays/zr/yura7181/new/pirates/humanswin2"
+		}
+		// etc..
+	}
+	"Overlay_Zombies"
+	{
+		"Overlay_1"
+		{
+			"name"	"zg_zombies_win"
+			"Overlay"	"overlays/zr/zg_zombies_win"
+		}
+		"Overlay_2"
+		{
+			"name"	"zombies_win"
+			"Overlay"	"overlays/zr/zombies_win"
+		}
+		"Overlay_3"
+		{
+			"name"	"zombies_win"
+			"Overlay"	"overlays/zr/yura7181/new/zombies_win"
+		}
+		"Overlay_4"
+		{
+			"name"	"kraken2"
+			"Overlay"	"overlays/zr/yura7181/new/pirates/kraken2"
+		}
+		"Overlay_5"
+		{
+			"name"	"zmwin2"
+			"Overlay"	"overlays/zr/yura7181/new/pirates/zmwin2"
+		}
+		// etc..
+	}
+}

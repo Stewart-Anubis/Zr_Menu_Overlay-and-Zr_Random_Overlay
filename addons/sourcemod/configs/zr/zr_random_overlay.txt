@@ -1,0 +1,51 @@
+"Overlay"
+{
+	"Overlay_Humans"
+	{
+		"Overlay_1"
+		{
+			"Overlay"	"overlays/zr/zg_humans_win"
+		}
+		"Overlay_2"
+		{
+			"Overlay"	"overlays/zr/humans_win"
+		}
+		"Overlay_3"
+		{
+			"Overlay"	"overlays/zr/yura7181/new/humans_hard_win"
+		}
+		"Overlay_4"
+		{
+			"Overlay"	"overlays/zr/yura7181/new/humans_win"
+		}
+		"Overlay_5"
+		{
+			"Overlay"	"overlays/zr/yura7181/new/pirates/humanswin2"
+		}
+		// etc..
+	}
+	"Overlay_Zombies"
+	{
+		"Overlay_1"
+		{
+			"Overlay"	"overlays/zr/zg_zombies_win"
+		}
+		"Overlay_2"
+		{
+			"Overlay"	"overlays/zr/zombies_win"
+		}
+		"Overlay_3"
+		{
+			"Overlay"	"overlays/zr/yura7181/new/zombies_win"
+		}
+		"Overlay_4"
+		{
+			"Overlay"	"overlays/zr/yura7181/new/pirates/kraken2"
+		}
+		"Overlay_5"
+		{
+			"Overlay"	"overlays/zr/yura7181/new/pirates/zmwin2"
+		}
+		// etc..
+	}
+}
