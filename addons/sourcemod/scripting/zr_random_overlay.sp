@@ -31,7 +31,7 @@
 #define PLUGIN_NAME           "Zr Randon Round End Overlay"
 #define PLUGIN_AUTHOR         "Anubis"
 #define PLUGIN_DESCRIPTION    "Zr Randon Round End Overlay"
-#define PLUGIN_VERSION        "1.0"
+#define PLUGIN_VERSION        "1.1"
 #define PLUGIN_URL            "https://github.com/Stewart-Anubis"
 #define CVARS_ZR_ROUNDEND_OVERLAY_LOCKED 0
 
@@ -48,14 +48,11 @@ ConVar g_CvarEnable =null,
 	g_CvarZr_Roundend_Overlay = null,
 	g_CvarConfig_FilePath = null;
 
-static StringMap g_smOverlayPathH;
-static StringMap g_smOverlayPathZ;
+ArrayList g_smOverlayPathH;
+ArrayList g_smOverlayPathZ;
 
 bool g_bEnable = true,
 	g_bRoundEnd = false;
-
-int g_iOverlay_Humans = 0,
-	g_iOverlay_Zombies = 0;
 
 char g_sConfig_FilePath[PLATFORM_MAX_PATH];
 
@@ -70,8 +67,9 @@ public Plugin myinfo =
 
 public void OnPluginStart()
 {
-	g_smOverlayPathH = new StringMap();
-	g_smOverlayPathZ = new StringMap();
+	int iArraySizePath = ByteCountToCells(PLATFORM_MAX_PATH);
+	g_smOverlayPathH = new ArrayList(iArraySizePath);
+	g_smOverlayPathZ = new ArrayList(iArraySizePath);
 
 	g_CvarEnable = CreateConVar("zr_menu_overlay_enable", "1", "Menu Overlay Enable = 1/Disable = 0");
 	g_CvarConfig_FilePath = CreateConVar("zr_menu_overlay_config_path", "configs/zr/zr_random_overlay.txt", "Location of configuration file.");
@@ -126,9 +124,7 @@ void File_ReadDownloadList()
 	g_smOverlayPathZ.Clear();
 
 	char sBuffer_temp[PLATFORM_MAX_PATH];
-	char sIndex_temp[20];
-	g_iOverlay_Humans = 0;
-	g_iOverlay_Zombies = 0;
+
 	BuildPath(Path_SM, sBuffer_temp, sizeof(sBuffer_temp), g_sConfig_FilePath);
 
 	g_hKvOverlay = new KeyValues("Overlay");
@@ -147,10 +143,8 @@ void File_ReadDownloadList()
 		{
 			do
 			{
-				g_iOverlay_Humans++;
-				IntToString(g_iOverlay_Humans, sIndex_temp, sizeof(sIndex_temp));
-				KvGetString(g_hKvOverlay, "Overlay", sBuffer_temp, sizeof(sBuffer_temp), "");
-				g_smOverlayPathH.SetString(sIndex_temp, sBuffer_temp, true);
+				KvGetString(g_hKvOverlay, "Overlay", sBuffer_temp, sizeof(sBuffer_temp), "MISSING");
+				g_smOverlayPathH.PushString(sBuffer_temp);
 				Format(sBuffer_temp, sizeof(sBuffer_temp), "materials/%s.vmt", sBuffer_temp);
 				AddFileToDownloadsTable(sBuffer_temp);
 				ReplaceString(sBuffer_temp, sizeof(sBuffer_temp), ".vmt", ".vtf");
@@ -165,10 +159,8 @@ void File_ReadDownloadList()
 		{
 			do
 			{
-				g_iOverlay_Zombies++;
-				IntToString(g_iOverlay_Zombies, sIndex_temp, sizeof(sIndex_temp));
-				KvGetString(g_hKvOverlay, "Overlay", sBuffer_temp, sizeof(sBuffer_temp), "");
-				g_smOverlayPathZ.SetString(sIndex_temp, sBuffer_temp, true);
+				KvGetString(g_hKvOverlay, "Overlay", sBuffer_temp, sizeof(sBuffer_temp), "MISSING");
+				g_smOverlayPathZ.PushString(sBuffer_temp);
 				Format(sBuffer_temp, sizeof(sBuffer_temp), "materials/%s.vmt", sBuffer_temp);
 				AddFileToDownloadsTable(sBuffer_temp);
 				ReplaceString(sBuffer_temp, sizeof(sBuffer_temp), ".vmt", ".vtf");
@@ -195,28 +187,32 @@ public void Event_RoundEnd(Handle event, const char[] name, bool dontBroadcast)
 		int winner = GetEventInt(event, "winner");
 
 		// Display the overlay to all clients.
-		if(g_bEnable) RoundEndOverlayStart(winner);
+		if(g_bEnable) CreateTimer(0.2, Event_RoundEndPost, winner, TIMER_FLAG_NO_MAPCHANGE);
 	}
+}
+
+public Action Event_RoundEndPost(Handle time, int winner)
+{
+	RoundEndOverlayStart(winner);
+	return Plugin_Stop;
 }
 
 void RoundEndOverlayStart(int winner)
 {
 	char sBuffer_temp[PLATFORM_MAX_PATH];
-	char sIndex_temp[20];
 	
 	switch(winner)
 	{
 		// Show "zombies win" overlay.
 		case CS_TEAM_T:
 		{
-			int randoverlay = GetRandomInt(1, g_iOverlay_Zombies);
+			int randoverlay = GetRandomInt(0, (g_smOverlayPathZ.Length - 1));
 
 			for (int i = 1; i <= MaxClients; i++)
 			{
 				if (IsClientInGame(i) && !IsFakeClient(i))
 				{
-					IntToString(randoverlay, sIndex_temp, sizeof(sIndex_temp));
-					g_smOverlayPathZ.GetString(sIndex_temp, sBuffer_temp, sizeof(sBuffer_temp));
+					g_smOverlayPathZ.GetString(randoverlay, sBuffer_temp, sizeof(sBuffer_temp));
 					ShowOverlayToClient(i, sBuffer_temp);
 				}
 			}
@@ -224,14 +220,13 @@ void RoundEndOverlayStart(int winner)
 		// Show "humans win" overlay.
 		case CS_TEAM_CT:
 		{
-			int randoverlay = GetRandomInt(1, g_iOverlay_Humans);
+			int randoverlay = GetRandomInt(0, (g_smOverlayPathH.Length - 1));
 
 			for (int i = 1; i <= MaxClients; i++)
 			{
 				if (IsClientInGame(i) && !IsFakeClient(i))
 				{
-					IntToString(randoverlay, sIndex_temp, sizeof(sIndex_temp));
-					g_smOverlayPathH.GetString(sIndex_temp, sBuffer_temp, sizeof(sBuffer_temp));
+					g_smOverlayPathH.GetString(randoverlay, sBuffer_temp, sizeof(sBuffer_temp));
 					ShowOverlayToClient(i, sBuffer_temp);
 				}
 			}

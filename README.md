@@ -4,7 +4,7 @@
 * Sorry for my English.
 
 * Author Anubis.
-* Version = 1.0
+* Version = 1.1
 
 ### Zr Menu Overlay and Zr Random Overlay!
 * Plugin add functionality to be able to use multiple overlays.
